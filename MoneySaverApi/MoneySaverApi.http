@@ -1,0 +1,6 @@
+@MoneySaverApi_HostAddress = http://localhost:5117
+
+GET {{MoneySaverApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
