@@ -3,11 +3,22 @@ using DataAccess.Repositories.Interfaces;
 using DataAccess.Repositories;
 using DataAccess;
 using BusinessManagers.Managers;
+using FirebaseAdmin;
+using Google.Apis.Auth.OAuth2;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Set environment variable for Firebase service account JSON
+var credentialPath = Path.Combine(Directory.GetCurrentDirectory(),  "Configurations", "firebase-adminsdk.json");
+Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", credentialPath);
 
+// Initialize Firebase Admin SDK
+FirebaseApp.Create(new AppOptions
+{
+    Credential = GoogleCredential.GetApplicationDefault()
+});
+
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -23,6 +34,7 @@ builder.Services.AddCors(o => o.AddPolicy("MoneySaverCors", builder =>
         .AllowAnyMethod()
         .AllowAnyHeader();
 }));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,12 +47,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
     app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-    //app.UseSwagger();
-    //app.UseSwaggerUI();
-
 }
 else
+{
     app.UseCors("DanalakshmiChitsCors");
+}
 
 app.UseHttpsRedirection();
 
