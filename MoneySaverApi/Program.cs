@@ -3,6 +3,8 @@ using DataAccess.Repositories.Interfaces;
 using DataAccess.Repositories;
 using DataAccess;
 using BusinessManagers.Managers;
+using System.Data.Common;
+using System.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +25,8 @@ builder.Services.AddCors(o => o.AddPolicy("MoneySaverCors", builder =>
         .AllowAnyMethod()
         .AllowAnyHeader();
 }));
+
+DbProviderFactories.RegisterFactory("System.Data.SqlClient", SqlClientFactory.Instance);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,7 +44,7 @@ if (app.Environment.IsDevelopment())
 
 }
 else
-    app.UseCors("DanalakshmiChitsCors");
+    app.UseCors("MoneySaverCors");
 
 app.UseHttpsRedirection();
 

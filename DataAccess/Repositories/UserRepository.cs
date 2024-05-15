@@ -16,16 +16,44 @@ namespace DataAccess.Repositories
         }
         public async Task<int> SaveUserKYC(UserKycDetails userKycDetails)
         {
-            return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Registration, new
+            if (userKycDetails.IsAadharVerified)
             {
-                AadharName = userKycDetails.AadharName,
-                AadharNo = userKycDetails.AadharNo,
-                Address = userKycDetails.Address,
-                DOB = userKycDetails.DOB,
-                AadharImage = userKycDetails.AadharImage,
-                IsAadharVerified = userKycDetails.IsAadharVerified,
-                phone = userKycDetails.Phone
-            });
+                return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Registration, new
+                {
+                    AadharName = userKycDetails.AadharName,
+                    AadharNo = userKycDetails.AadharNo,
+                    Address = userKycDetails.Address,
+                    DOB = userKycDetails.DOB,
+                    AadharImage = userKycDetails.Image,
+                    IsAadharVerified = userKycDetails.IsAadharVerified,
+                    phone = userKycDetails.Phone
+                });
+            }
+            else if (userKycDetails.IsSelfieVerified)
+            {
+                return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Selfie_Updataion, new
+                {
+                    selfieImage = userKycDetails.Image,
+                    IsSelfieVerified = userKycDetails.IsSelfieVerified,
+                    phone = userKycDetails.Phone
+                });
+            }
+            else if(userKycDetails.IsBankVerified)
+            {
+                return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Bank_Updataion, new
+                {
+                    AcNumber = userKycDetails.AcNumber,
+                    AcHolderName = userKycDetails.AcHolderName,
+                    TypeOfAccount = userKycDetails.TypeOfAccount,
+                     IfscCode = userKycDetails.IfscCode,
+                    IsBankVerified = userKycDetails.IsBankVerified,
+                    selfieImage = userKycDetails.Image,
+                    IsSelfieVerified = userKycDetails.IsSelfieVerified,
+                    phone = userKycDetails.Phone
+                });
+            }
+            return 0;
+            
         }
     }
 }
