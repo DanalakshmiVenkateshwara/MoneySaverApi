@@ -24,7 +24,7 @@ namespace DataAccess.Repositories
                     AadharNo = userKycDetails.AadharNo,
                     Address = userKycDetails.Address,
                     DOB = userKycDetails.DOB,
-                    AadharImage = userKycDetails.Image,
+                    AadharImage = userKycDetails.AadharImage,
                     IsAadharVerified = userKycDetails.IsAadharVerified,
                     phone = userKycDetails.Phone
                 });
@@ -33,8 +33,9 @@ namespace DataAccess.Repositories
             {
                 return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Selfie_Updataion, new
                 {
-                    selfieImage = userKycDetails.Image,
+                    selfieImage = userKycDetails.selfieImage,
                     IsSelfieVerified = userKycDetails.IsSelfieVerified,
+                    Email = userKycDetails.Email,
                     phone = userKycDetails.Phone
                 });
             }
@@ -45,10 +46,10 @@ namespace DataAccess.Repositories
                     AcNumber = userKycDetails.AcNumber,
                     AcHolderName = userKycDetails.AcHolderName,
                     TypeOfAccount = userKycDetails.TypeOfAccount,
-                     IfscCode = userKycDetails.IfscCode,
+                    IfscCode = userKycDetails.IfscCode,
                     IsBankVerified = userKycDetails.IsBankVerified,
-                    selfieImage = userKycDetails.Image,
-                    IsSelfieVerified = userKycDetails.IsSelfieVerified,
+                    //selfieImage = userKycDetails.Image,
+                    //IsSelfieVerified = userKycDetails.IsSelfieVerified,
                     phone = userKycDetails.Phone
                 });
             }
