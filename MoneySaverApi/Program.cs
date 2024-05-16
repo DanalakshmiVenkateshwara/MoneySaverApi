@@ -5,6 +5,8 @@ using DataAccess;
 using BusinessManagers.Managers;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
+using System.Data.Common;
+using System.Data.SqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,6 +37,7 @@ builder.Services.AddCors(o => o.AddPolicy("MoneySaverCors", builder =>
         .AllowAnyHeader();
 }));
 
+DbProviderFactories.RegisterFactory("System.Data.SqlClient", SqlClientFactory.Instance);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -49,9 +52,7 @@ if (app.Environment.IsDevelopment())
     app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 }
 else
-{
-    app.UseCors("DanalakshmiChitsCors");
-}
+    app.UseCors("MoneySaverCors");
 
 app.UseHttpsRedirection();
 

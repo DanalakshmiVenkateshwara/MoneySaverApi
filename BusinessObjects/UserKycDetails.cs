@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace BusinessObjects
         public string? AadharImage { get; set; }
         public bool IsAadharVerified { get; set; }
         public string? selfieImage { get; set; }
+        public string? Image { get; set; }
         public string? Email { get; set; }
         public bool IsSelfieVerified { get; set; }
         public string? AcNumber { get; set; }
@@ -23,5 +25,6 @@ namespace BusinessObjects
         public string? IfscCode { get; set;}
         public bool IsBankVerified { get;set; }
         public string? Phone { get; set; }
+        public IFormFileCollection ImageFile { get; set; }
     }
 }
