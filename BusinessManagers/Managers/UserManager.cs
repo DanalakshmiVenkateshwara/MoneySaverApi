@@ -22,5 +22,9 @@ namespace BusinessManagers.Managers
         {
             return await _userRepository.SaveUserKYC(userKycDetails);
         }
+        public async Task<KycStatusDetails> GetKycDetails(string mobile)
+        {
+            return await _userRepository.GetKycDetails(mobile);
+        }
     }
 }

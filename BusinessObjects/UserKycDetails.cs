@@ -24,7 +24,7 @@ namespace BusinessObjects
         public string? TypeOfAccount { get; set; }
         public string? IfscCode { get; set;}
         public bool IsBankVerified { get;set; }
-        public string? Phone { get; set; }
-        public IFormFileCollection ImageFile { get; set; }
+        public string Phone { get; set; }
+        public IFormFileCollection? ImageFile { get; set; }
     }
 }

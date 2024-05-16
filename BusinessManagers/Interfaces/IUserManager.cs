@@ -10,5 +10,6 @@ namespace BusinessManagers.Interfaces
     public interface IUserManager
     {
         Task<int> SaveUserKYC(UserKycDetails userKycDetails);
+        Task<KycStatusDetails> GetKycDetails(string mobile);
     }
 }

@@ -19,6 +19,7 @@ builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserManager, UserManager>();
 builder.Services.AddScoped<IRepository, RepositoryBase>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.Configure<ConnectionStrings>(builder.Configuration.GetSection("ConnectionStrings"));
 builder.Services.AddCors(o => o.AddPolicy("MoneySaverCors", builder =>
 {
     builder.AllowAnyOrigin()

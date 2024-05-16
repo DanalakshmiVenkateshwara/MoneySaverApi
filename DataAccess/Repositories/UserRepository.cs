@@ -55,5 +55,11 @@ namespace DataAccess.Repositories
             return 0;
             
         }
+        public async Task<KycStatusDetails> GetKycDetails(string mobile)
+        {
+            var test = new KycStatusDetails();
+             test = await this.Find<KycStatusDetails>(SqlQueries.Get_Kyc_Details, new { mobile });
+            return test;
+        }
     }
 }

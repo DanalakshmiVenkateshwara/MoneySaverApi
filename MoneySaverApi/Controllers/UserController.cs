@@ -31,23 +31,34 @@ namespace MoneySaverApi.Controllers
         [EnableCors]
         [HttpPost]
         [Route("SaveUserKYC")]
-        public async Task<int> SaveUserKYC([FromForm] UserKycDetails userKycDetails)
+        public async Task<IActionResult> SaveUserKYC([FromForm] UserKycDetails userKycDetails)
         {
-            string path = Path.Combine(_hostingEnvironment.ContentRootPath, _staticFileSettings.Value.Documents);
+            //string path = Path.Combine(_hostingEnvironment.ContentRootPath, _staticFileSettings.Value.Documents);
 
             List<string> imageFileNames = new();
 
-            var extension = Path.GetExtension(userKycDetails.Image);
+            //var extension = Path.GetExtension(userKycDetails.Image);
 
-            if (extension.ToLower() == ".png" || extension.ToLower() == ".jpg")// need to add constants
-            {
-                if (userKycDetails.ImageFile != null)
-                {
-                    imageFileNames = SaveFiles(path, userKycDetails.ImageFile, string.Empty);
-                    userKycDetails.Image = imageFileNames[0];
-                }
-            }
-            return await _userManager.SaveUserKYC(userKycDetails);
+            //if (extension.ToLower() == ".png" || extension.ToLower() == ".jpg")// need to add constants
+            //{
+            //    if (userKycDetails.ImageFile != null)
+            //    {
+            //        imageFileNames = SaveFiles(path, userKycDetails.ImageFile, string.Empty);
+            //        userKycDetails.Image = imageFileNames[0];
+            //    }
+            //}
+             int result = await _userManager.SaveUserKYC(userKycDetails);
+            if(result > 0)
+                return Ok(new KycResults { Success = true,Id = result, Message = "", ImagePath = "" });
+            else
+                return Ok(new KycResults { Success = false, Message = "" , ImagePath =""});
+        }
+        [EnableCors]
+        [HttpGet]
+        [Route("GetKYCDetails")]
+        public async Task<KycStatusDetails> GetKycDetails(string mobile)
+        {
+            return await _userManager.GetKycDetails(mobile);
         }
     }
 }

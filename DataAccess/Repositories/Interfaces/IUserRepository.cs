@@ -10,5 +10,6 @@ namespace DataAccess.Repositories.Interfaces
     public interface IUserRepository
     {
         Task<int> SaveUserKYC(UserKycDetails userKycDetails);
+        Task<KycStatusDetails> GetKycDetails(string mobile);
     }
 }

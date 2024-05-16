@@ -33,44 +33,6 @@ namespace DataAccess
             }
         }
 
-        /// <summary>
-        /// getting the optimiz database connection
-        /// </summary>
-        //public IDbConnection OptimizConnection
-        //{
-        //    get
-        //    {
-        //        IDbConnection connection = EstablishOptimizConnection();
-
-        //        if (connection.State.Equals(ConnectionState.Closed))
-        //        {
-        //            if (string.IsNullOrEmpty(connection.ConnectionString))
-        //            {
-        //                connection.ConnectionString = _connectionStrings.OptimizConnection;
-        //            }
-
-        //            connection.Open();
-        //        }
-
-        //        return connection;
-        //    }
-        //}
-
-        /// <summary>
-        /// Creating connection
-        /// </summary>
-        /// <returns></returns>
-        //private IDbConnection EstablishOptimizConnection()
-        //{
-        //    var conn = _dataProvideFactory.CreateConnection();
-        //    conn.ConnectionString = _connectionStrings.OptimizConnection;
-        //    return conn;
-        //}
-
-        /// <summary>
-        /// Creating connection
-        /// </summary>
-        /// <returns></returns>
         private IDbConnection EstablishPandDConnection()
         {
             var conn = _dataProvideFactory.CreateConnection();
