@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessObjects;
 using System.Net;
-
 namespace DataAccess.Repositories
 {
     public class UserRepository : RepositoryBase, IUserRepository
@@ -16,7 +15,7 @@ namespace DataAccess.Repositories
         }
         public async Task<int> SaveUserKYC(UserKycDetails userKycDetails)
         {
-            if (userKycDetails.IsAadharVerified)
+            if (!userKycDetails.IsAadharVerified)
             {
                 return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Registration, new
                 {
@@ -25,21 +24,21 @@ namespace DataAccess.Repositories
                     Address = userKycDetails.Address,
                     DOB = userKycDetails.DOB,
                     AadharImage = userKycDetails.AadharImage,
-                    IsAadharVerified = userKycDetails.IsAadharVerified,
+                    IsAadharVerified = true,
                     phone = userKycDetails.Phone
                 });
             }
-            else if (userKycDetails.IsSelfieVerified)
+            else if (!userKycDetails.IsSelfieVerified)
             {
                 return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Selfie_Updataion, new
                 {
                     selfieImage = userKycDetails.selfieImage,
-                    IsSelfieVerified = userKycDetails.IsSelfieVerified,
+                    IsSelfieVerified = true,
                     Email = userKycDetails.Email,
                     phone = userKycDetails.Phone
                 });
             }
-            else if(userKycDetails.IsBankVerified)
+            else if(!userKycDetails.IsBankVerified)
             {
                 return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Bank_Updataion, new
                 {
@@ -47,7 +46,7 @@ namespace DataAccess.Repositories
                     AcHolderName = userKycDetails.AcHolderName,
                     TypeOfAccount = userKycDetails.TypeOfAccount,
                     IfscCode = userKycDetails.IfscCode,
-                    IsBankVerified = userKycDetails.IsBankVerified,
+                    IsBankVerified = true,
                     //selfieImage = userKycDetails.Image,
                     //IsSelfieVerified = userKycDetails.IsSelfieVerified,
                     phone = userKycDetails.Phone
@@ -58,8 +57,20 @@ namespace DataAccess.Repositories
         }
         public async Task<KycStatusDetails> GetKycDetails(string mobile)
         {
-            var test = new KycStatusDetails();
-             test = await this.Find<KycStatusDetails>(SqlQueries.Get_Kyc_Details, new { mobile });
+            var test = await this.Find<KycStatusDetails>(SqlQueries.Get_Kyc_Details, new { mobile });
+
+            // Check if test is null (no records found)
+            if (test == null)
+            {
+                // If no records are found, return a new KycStatusDetails object with all properties set to false
+                return new KycStatusDetails
+                {
+                    IsAadharVerified = false,
+                    IsSelfieVerified = false,
+                    IsBankVerified = false
+                };
+            }
+
             return test;
         }
     }

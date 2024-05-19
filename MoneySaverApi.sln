@@ -15,6 +15,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{D6573F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneySaver.Utilities", "MoneySaver.Utilities\MoneySaver.Utilities.csproj", "{ACBA5EF1-5F54-434B-B820-BAFF8512EB41}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{018F935D-5C7C-4D2D-AE4C-5805A6785C47}"
+	ProjectSection(SolutionItems) = preProject
+		MoneySaver.Utilities\MoneySaver.Utilities.csproj = MoneySaver.Utilities\MoneySaver.Utilities.csproj
+		MoneySaverApi.sln = MoneySaverApi.sln
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

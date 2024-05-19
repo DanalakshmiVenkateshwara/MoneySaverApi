@@ -7,8 +7,6 @@
     <InvariantGlobalization>true</InvariantGlobalization>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.35" />
     <PackageReference Include="Dapper.SqlBuilder" Version="2.0.78" />
@@ -25,4 +23,10 @@
     <ProjectReference Include="..\MoneySaver.Utilities\MoneySaver.Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Files\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Files\" />
+  </ItemGroup>
 </Project>

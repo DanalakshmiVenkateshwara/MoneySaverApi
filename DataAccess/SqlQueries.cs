@@ -16,7 +16,7 @@ namespace DataAccess
 
         public const string USer_Kyc_Selfie_Updataion = @"Update CustomerKYCDetails set selfieImage = @selfieImage, isselfieverified = @IsSelfieVerified, Email = @Email where phone =@phone";
 
-        public const string USer_Kyc_Bank_Updataion = @"Update CustomerKYCDetails set AcNumber = @AcNumber, AcHolderName = @AcHolderName,TypeOfAccount=@TypeOfAccount,IfscCode=@IfscCode ,
+        public const string USer_Kyc_Bank_Updataion = @"Update CustomerKYCDetails set AcNumber = @AcNumber, AcHolderName = @AcHolderName,TypeOfAc=@TypeOfAccount,IfscCode=@IfscCode ,
                     IsBankVerified = @IsBankVerified where phone =@phone  ";
         public const string Get_Kyc_Details = @"Select IsAadharVerified,IsSelfieVerified,IsBankVerified from CustomerKYCDetails where phone = @mobile ";
     }

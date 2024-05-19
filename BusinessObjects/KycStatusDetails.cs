@@ -8,8 +8,8 @@ namespace BusinessObjects
 {
     public class KycStatusDetails
     {
-        public bool IsAdharVerified { get; set; }
-        public bool IsSelfiEVerified { get; set; }
+        public bool IsAadharVerified { get; set; }
+        public bool IsSelfieVerified { get; set; }
         public bool IsBankVerified { get; set; }
 
     }
