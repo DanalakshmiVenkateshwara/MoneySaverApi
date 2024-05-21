@@ -11,5 +11,6 @@ namespace BusinessManagers.Interfaces
     {
         Task<int> SaveUserKYC(UserKycDetails userKycDetails);
         Task<KycStatusDetails> GetKycDetails(string mobile);
+        Task<int> SaveInvestments(Investments investments);
     }
 }

@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BusinessObjects;
 using System.Net;
+using System.Numerics;
 namespace DataAccess.Repositories
 {
     public class UserRepository : RepositoryBase, IUserRepository
@@ -38,7 +39,7 @@ namespace DataAccess.Repositories
                     phone = userKycDetails.Phone
                 });
             }
-            else if(!userKycDetails.IsBankVerified)
+            else if (!userKycDetails.IsBankVerified)
             {
                 return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Bank_Updataion, new
                 {
@@ -53,7 +54,7 @@ namespace DataAccess.Repositories
                 });
             }
             return 0;
-            
+
         }
         public async Task<KycStatusDetails> GetKycDetails(string mobile)
         {
@@ -72,6 +73,28 @@ namespace DataAccess.Repositories
             }
 
             return test;
+        }
+        public async Task<int> SaveInvestments(Investments investments)
+        {
+            if (investments != null)
+            {
+                return await this.AddOrUpdateDynamic(SqlQueries.Save_Investments, new
+                {
+                    Amount = investments.Amount,
+                    RoIMonthly = investments.ROIMonthly,
+                    RoIYearly = investments.ROIYearly,
+                    MonthlyTenure = investments.MonthlyTenure,
+                    yearlyTenure = investments.YearlyTenure,
+                    StartDate = investments.StartDate,
+                    MaturityDate = investments.MaturityDate,
+                    MaturityValue = investments.MaturityValue,
+                    IsActive  = investments.IsActive,
+                    Phone  = investments.Phone
+                });
+            }
+            else
+             return 0;
+
         }
     }
 }

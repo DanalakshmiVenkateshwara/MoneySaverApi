@@ -19,6 +19,9 @@ namespace DataAccess
         public const string USer_Kyc_Bank_Updataion = @"Update CustomerKYCDetails set AcNumber = @AcNumber, AcHolderName = @AcHolderName,TypeOfAc=@TypeOfAccount,IfscCode=@IfscCode ,
                     IsBankVerified = @IsBankVerified where phone =@phone  ";
         public const string Get_Kyc_Details = @"Select IsAadharVerified,IsSelfieVerified,IsBankVerified from CustomerKYCDetails where phone = @mobile ";
+
+        public const string Save_Investments = @"INSERT INTO Investments(Amount, ROIMonthly, ROIYearly, MonthlyTenure,	YearlyTenure, StartDate, MaturityDate, MaturityValue, IsActive,	Phone)
+                                                values (@Amount, @ROIMonthly, @ROIYearly, @MonthlyTenure, @YearlyTenure, @StartDate, @MaturityDate, @MaturityValue, @IsActive,	@Phone)";
     }
 }
 
