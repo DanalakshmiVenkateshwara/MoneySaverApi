@@ -22,6 +22,8 @@ namespace DataAccess
 
         public const string Save_Investments = @"INSERT INTO Investments(Amount, ROIMonthly, ROIYearly, MonthlyTenure,	YearlyTenure, StartDate, MaturityDate, MaturityValue, IsActive,	Phone)
                                                 values (@Amount, @ROIMonthly, @ROIYearly, @MonthlyTenure, @YearlyTenure, @StartDate, @MaturityDate, @MaturityValue, @IsActive,	@Phone)";
+
+        public const string Get_ROI = "Select Plan,ROI from rateofintrest";
     }
 }
 

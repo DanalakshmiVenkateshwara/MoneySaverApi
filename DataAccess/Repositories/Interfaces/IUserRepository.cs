@@ -12,5 +12,6 @@ namespace DataAccess.Repositories.Interfaces
         Task<int> SaveUserKYC(UserKycDetails userKycDetails);
         Task<KycStatusDetails> GetKycDetails(string mobile);
         Task<int> SaveInvestments(Investments investments);
+        Task<RateOfIntrest> GetROI();
     }
 }

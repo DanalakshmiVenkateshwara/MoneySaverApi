@@ -85,6 +85,13 @@ namespace MoneySaverApi.Controllers
         {
             return await _userManager.GetKycDetails(mobile);
         }
+        [EnableCors]
+        [HttpGet]
+        [Route("GetKYCDetails")]
+        public async Task<RateOfIntrest> GetROI()
+        {
+            return await _userManager.GetROI();
+        }
 
         [EnableCors]
         [HttpPost]

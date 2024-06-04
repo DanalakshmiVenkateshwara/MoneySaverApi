@@ -26,6 +26,10 @@ namespace BusinessManagers.Managers
         {
             return await _userRepository.GetKycDetails(mobile);
         }
+        public async Task<RateOfIntrest> GetROI()
+        {
+            return await _userRepository.GetROI();
+        }
         public async Task<int> SaveInvestments(Investments investments)
         {
             return await _userRepository.SaveInvestments(investments);

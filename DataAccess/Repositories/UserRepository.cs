@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BusinessObjects;
 using System.Net;
 using System.Numerics;
+using System.Reflection;
 namespace DataAccess.Repositories
 {
     public class UserRepository : RepositoryBase, IUserRepository
@@ -73,6 +74,10 @@ namespace DataAccess.Repositories
             }
 
             return test;
+        }
+        public async Task<RateOfIntrest> GetROI()
+        {
+           return await this.Find<RateOfIntrest>(SqlQueries.Get_ROI);
         }
         public async Task<int> SaveInvestments(Investments investments)
         {
