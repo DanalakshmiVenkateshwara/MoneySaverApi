@@ -65,19 +65,15 @@ namespace DataAccess.Repositories
             if (test == null)
             {
                 // If no records are found, return a new KycStatusDetails object with all properties set to false
-                return new KycStatusDetails
-                {
-                    IsAadharVerified = false,
-                    IsSelfieVerified = false,
-                    IsBankVerified = false
-                };
+                return new KycStatusDetails();
+                
             }
 
             return test;
         }
-        public async Task<RateOfIntrest> GetROI()
+        public async Task<List<RateOfIntrest>> GetROI()
         {
-           return await this.Find<RateOfIntrest>(SqlQueries.Get_ROI);
+           return await this.All<RateOfIntrest>(SqlQueries.Get_ROI);
         }
         public async Task<int> SaveInvestments(Investments investments)
         {

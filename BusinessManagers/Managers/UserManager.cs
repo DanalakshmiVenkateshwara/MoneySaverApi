@@ -26,7 +26,7 @@ namespace BusinessManagers.Managers
         {
             return await _userRepository.GetKycDetails(mobile);
         }
-        public async Task<RateOfIntrest> GetROI()
+        public async Task<List<RateOfIntrest>> GetROI()
         {
             return await _userRepository.GetROI();
         }
