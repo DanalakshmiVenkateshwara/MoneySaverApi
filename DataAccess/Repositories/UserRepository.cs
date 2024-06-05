@@ -79,23 +79,41 @@ namespace DataAccess.Repositories
         {
             if (investments != null)
             {
-                return await this.AddOrUpdateDynamic(SqlQueries.Save_Investments, new
+                var transaction = await this.AddOrUpdateDynamic(SqlQueries.Save_Transaction, new
                 {
+                    Date = DateTime.Now,
                     Amount = investments.Amount,
-                    RoIMonthly = investments.ROIMonthly,
-                    RoIYearly = investments.ROIYearly,
-                    MonthlyTenure = investments.MonthlyTenure,
-                    yearlyTenure = investments.YearlyTenure,
-                    StartDate = investments.StartDate,
-                    MaturityDate = investments.MaturityDate,
-                    MaturityValue = investments.MaturityValue,
-                    IsActive  = investments.IsActive,
-                    Phone  = investments.Phone
+                    Type = "Deposit",
+                    Status = true,
+                    phone = investments.Phone,
+                    TransactionId = investments.TransactionId
                 });
+                if (transaction > 0)
+                {
+                    return await this.AddOrUpdateDynamic(SqlQueries.Save_Investments, new
+                    {
+                        Amount = investments.Amount,
+                        RoIMonthly = investments.ROIMonthly,
+                        RoIYearly = investments.ROIYearly,
+                        MonthlyTenure = investments.MonthlyTenure,
+                        yearlyTenure = investments.YearlyTenure,
+                        StartDate = investments.StartDate,
+                        MaturityDate = investments.MaturityDate,
+                        MaturityValue = investments.MaturityValue,
+                        IsActive = investments.IsActive,
+                        Phone = investments.Phone,
+                        TransactionId = investments.TransactionId
+                    });
+                }
+                return 0;
             }
             else
              return 0;
 
+        }
+        public async Task<List<Investments>> GetInvestments(string mobile)
+        {
+            return await this.All<Investments>(SqlQueries.Get_Investments);
         }
     }
 }

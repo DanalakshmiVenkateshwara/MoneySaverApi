@@ -29,7 +29,7 @@ namespace MoneySaverApi.Controllers
             _hostingEnvironment = hostingEnvironment;
             _staticFileSettings = staticFileSettings;
         }
-        [EnableCors]
+        //[EnableCors]
         [HttpPost]
         [Route("SaveUserKYC")]
         public async Task<IActionResult> SaveUserKYC([FromBody] UserKycDetails userKycDetails)
@@ -78,14 +78,14 @@ namespace MoneySaverApi.Controllers
             else
                 return Ok(new KycResults { Success = false, Message = "", ImagePath = "" });
         }
-        [EnableCors]
+        //[EnableCors]
         [HttpGet]
         [Route("GetKYCDetails")]
         public async Task<KycStatusDetails> GetKycDetails(string mobile)
         {
             return await _userManager.GetKycDetails(mobile);
         }
-        [EnableCors]
+        //[EnableCors]
         [HttpGet]
         [Route("GetROI")]
         public async Task<List<RateOfIntrest>> GetROI()
@@ -93,7 +93,7 @@ namespace MoneySaverApi.Controllers
             return await _userManager.GetROI();
         }
 
-        [EnableCors]
+        //[EnableCors]
         [HttpPost]
         [Route("SaveInvestments")]
         public async Task<IActionResult> SaveInvestments([FromBody] Investments investments)
@@ -103,6 +103,12 @@ namespace MoneySaverApi.Controllers
                 return Ok(new CreationResults {Id = result,  Success = true, Message = "" });
             else
                 return Ok(new CreationResults { Id = result, Success = false, Message = "" });
+        }
+        [HttpGet]
+        [Route("GetInvestments")]
+        public async Task<List<Investments>> GetInvestments(string mobile)
+        {
+            return  await _userManager.GetInvestments(mobile);
         }
     }
 }

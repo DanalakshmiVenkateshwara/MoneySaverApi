@@ -34,5 +34,9 @@ namespace BusinessManagers.Managers
         {
             return await _userRepository.SaveInvestments(investments);
         }
+        public async Task<List<Investments>> GetInvestments(string mobile)
+        {
+            return await _userRepository.GetInvestments(mobile);
+        }
     }
 }

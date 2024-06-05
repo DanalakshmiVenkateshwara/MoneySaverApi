@@ -13,5 +13,6 @@ namespace BusinessManagers.Interfaces
         Task<KycStatusDetails> GetKycDetails(string mobile);
         Task<int> SaveInvestments(Investments investments);
         Task<List<RateOfIntrest>> GetROI();
+        Task<List<Investments>> GetInvestments(string mobile);
     }
 }
