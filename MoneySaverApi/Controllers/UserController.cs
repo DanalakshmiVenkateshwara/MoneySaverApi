@@ -105,10 +105,16 @@ namespace MoneySaverApi.Controllers
                 return Ok(new CreationResults { Id = result, Success = false, Message = "" });
         }
         [HttpGet]
+        [Route("GetWithDraws")]
+        public async Task<List<Investments>> GetWithDraws(string mobile)
+        {
+            return  await _userManager.GetWithDraws(mobile);
+        }
+        [HttpGet]
         [Route("GetInvestments")]
         public async Task<List<Investments>> GetInvestments(string mobile)
         {
-            return  await _userManager.GetInvestments(mobile);
+            return await _userManager.GetInvestments(mobile);
         }
     }
 }

@@ -30,6 +30,7 @@ namespace DataAccess
         public const string Get_ROI = "Select [Plan],ROI from rateofintrest";
 
         public const string Get_Investments = "Select * from Investments";
+        public const string Get_WithDraws = "Select * from withDraws";
     }
 }
 

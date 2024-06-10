@@ -115,5 +115,10 @@ namespace DataAccess.Repositories
         {
             return await this.All<Investments>(SqlQueries.Get_Investments);
         }
+        public async Task<List<Investments>> GetWithDraws(string mobile)
+        {
+            return await this.All<Investments>(SqlQueries.Get_WithDraws);
+        }
+        
     }
 }
