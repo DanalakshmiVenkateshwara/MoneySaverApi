@@ -20,5 +20,6 @@ namespace BusinessObjects
         public string? Phone { get; set; }
         public string? TransactionId { get; set; }
         public string? PolicyNumber { get; set; }
+        public bool? recurring { get; set; }
     }
 }

@@ -102,7 +102,8 @@ namespace DataAccess.Repositories
                         MaturityValue = investments.MaturityValue,
                         IsActive = investments.IsActive,
                         Phone = investments.Phone,
-                        TransactionId = investments.TransactionId
+                        TransactionId = investments.TransactionId,
+                        Recurring = investments.recurring
                     });
                 }
                 return 0;

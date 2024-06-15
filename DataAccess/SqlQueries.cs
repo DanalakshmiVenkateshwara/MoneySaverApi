@@ -22,8 +22,8 @@ namespace DataAccess
                     IsBankVerified = @IsBankVerified where phone =@phone  ";
         public const string Get_Kyc_Details = @"Select IsAadharVerified,IsSelfieVerified,IsBankVerified from CustomerKYCDetails where phone = @mobile ";
 
-        public const string Save_Investments = @"INSERT INTO Investments(Amount, ROIMonthly, ROIYearly, MonthlyTenure,	YearlyTenure, StartDate, MaturityDate, MaturityValue, IsActive,	Phone, TransactionId)
-                                                values (@Amount, @ROIMonthly, @ROIYearly, @MonthlyTenure, @YearlyTenure, @StartDate, @MaturityDate, @MaturityValue, @IsActive,	@Phone, @TransactionId)";
+        public const string Save_Investments = @"INSERT INTO Investments(Amount, ROIMonthly, ROIYearly, MonthlyTenure,	YearlyTenure, StartDate, MaturityDate, MaturityValue, IsActive,	Phone, TransactionId,Recurring )
+                                                values (@Amount, @ROIMonthly, @ROIYearly, @MonthlyTenure, @YearlyTenure, @StartDate, @MaturityDate, @MaturityValue, @IsActive,	@Phone, @TransactionId, @Recurring)";
         public const string Save_Transaction = @"INSERT INTO transactions(Date, Amount, Type, Status, phone,TransactionId) 
                                                  values(@Date, @Amount, @Type, @Status, @phone,@TransactionId)";
 
