@@ -46,7 +46,7 @@ namespace MoneySaverApi
                 //app.UseSwagger();
                 //app.UseSwaggerUI();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DanalakshmiChitsApi v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MoneySaveApi v1"));
             }
             else
                 app.UseCors("DanalakshmiChitsCors");
