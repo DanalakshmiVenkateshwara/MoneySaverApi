@@ -1,5 +1,12 @@
-﻿using DataAccess;
+﻿using Autofac;
+using DataAccess;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using MoneySaverApi.App_Start;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Reflection;
@@ -23,7 +30,7 @@ namespace MoneySaverApi
             //services.AddSwaggerGen();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DanalakshmiChitsApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MoneySaverApi", Version = "v1" });
             });
             services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
             services.AddCors(o => o.AddPolicy("MoneySaverCors", builder =>
@@ -46,10 +53,10 @@ namespace MoneySaverApi
                 //app.UseSwagger();
                 //app.UseSwaggerUI();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MoneySaveApi v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "MoneySaverApi v1"));
             }
             else
-                app.UseCors("DanalakshmiChitsCors");
+                app.UseCors("MoneySaverCors");
 
             app.UseHttpsRedirection();
 
@@ -64,10 +71,10 @@ namespace MoneySaverApi
                 endpoints.MapControllers();
             });
         }
-        //public void ConfigureContainer(ContainerBuilder builder)
-        //{
-        //    builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).AsSelf().AsImplementedInterfaces();
-        //    builder.RegisterModule(new AutofacModule());
-        //}
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).AsSelf().AsImplementedInterfaces();
+            builder.RegisterModule(new AutofacModule());
+        }
     }
 }
