@@ -44,7 +44,7 @@ DbProviderFactories.RegisterFactory("System.Data.SqlClient", SqlClientFactory.In
 
 // Configure static file serving
 var fileDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Files");
-builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(fileDirectory));
+//builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(fileDirectory));
 
 var app = builder.Build();
 
@@ -63,13 +63,15 @@ else
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseDefaultFiles();
+app.UseStaticFiles();
 
 // Serve static files from the "Files" directory
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(fileDirectory),
-    RequestPath = "/files"
-});
+//app.UseStaticFiles(new StaticFileOptions
+//{
+//    FileProvider = new PhysicalFileProvider(fileDirectory),
+//    RequestPath = "/files"
+//});
 
 app.MapControllers();
 
