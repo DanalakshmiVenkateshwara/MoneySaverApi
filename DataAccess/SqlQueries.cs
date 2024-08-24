@@ -22,15 +22,23 @@ namespace DataAccess
                     IsBankVerified = @IsBankVerified where phone =@phone  ";
         public const string Get_Kyc_Details = @"Select IsAadharVerified,IsSelfieVerified,IsBankVerified from CustomerKYCDetails where phone = @mobile ";
 
-        public const string Save_Investments = @"INSERT INTO Investments(Amount, ROIMonthly, ROIYearly, MonthlyTenure,	YearlyTenure, StartDate, MaturityDate, MaturityValue, IsActive,	Phone, TransactionId,Recurring )
-                                                values (@Amount, @ROIMonthly, @ROIYearly, @MonthlyTenure, @YearlyTenure, @StartDate, @MaturityDate, @MaturityValue, @IsActive,	@Phone, @TransactionId, @Recurring)";
+        public const string Save_Investments = @"INSERT INTO Investments(Amount, ROIDaily, ROIYearly, DailyTenure,	YearlyTenure, StartDate, MaturityDate, MaturityValue, IsActive,	Phone, TransactionId,Recurring )
+                                                values (@Amount, @ROIDaily, @ROIYearly, @DailyTenure, @YearlyTenure, @StartDate, @MaturityDate, @MaturityValue, @IsActive,	@Phone, @TransactionId, @Recurring)";
         public const string Save_Transaction = @"INSERT INTO transactions(Date, Amount, Type, Status, phone,TransactionId) 
                                                  values(@Date, @Amount, @Type, @Status, @phone,@TransactionId)";
 
         public const string Get_ROI = "Select [Plan],ROI from rateofintrest";
 
-        public const string Get_Investments = "Select * from Investments";
+        public const string Get_Investments = "Select * from Investments where phone = @mobile";
         public const string Get_WithDraws = "Select * from withDraws";
+        public const string Get_Recurring_Investments = "select amount,MaturityDate,MaturityValue, ROIMonthly, ROIYearly, PolicyNumber from Investments where Phone = @mobile and Recurring = 1 ";
+
+        public const string Save_SubInvestments = @"INSERT INTO SubInvestments(Amount, ROI,paymentDate Tenure, StartDate, MaturityDate, MaturityValue, IsActive,	Phone, TransactionId,PolicyNumber)
+                                                values (@Amount, @ROI,@paymentDate, @Tenure, @StartDate, @MaturityDate, @MaturityValue, @IsActive, @Phone, @TransactionId,@PolicyNumber)";
+        
+        public const string Update_Investments = @"update Investments set amount =@Amount , MaturityValue =@MaturityValue  where PolicyNumber = @PolicyNumber)"; 
+
+
     }
 }
 

@@ -111,6 +111,12 @@ namespace MoneySaverApi.Controllers
             return await _userManager.GetWithDraws(mobile);
         }
         [HttpGet]
+        [Route("GetRecurringInvestments")]
+        public async Task<List<RecurringInvestments>> GetRecurringInvestments(string mobile)
+        {
+            return await _userManager.GetRecurringInvestments(mobile);
+        }
+        [HttpGet]
         [Route("GetInvestments")]
         public async Task<List<Investments>> GetInvestments(string mobile)
         {
