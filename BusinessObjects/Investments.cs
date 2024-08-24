@@ -9,10 +9,10 @@ namespace BusinessObjects
     public class Investments
     {
         public int Amount { get; set; }
-        public string? ROIMonthly { get; set; }
+        public string? ROIDaily { get; set; }
         public string? ROIYearly { get; set; }
         public string? YearlyTenure { get; set; }
-        public string? MonthlyTenure { get; set; }
+        public string? DailyTenure  { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime MaturityDate { get; set; }
         public int MaturityValue { get; set; }

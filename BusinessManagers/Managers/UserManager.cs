@@ -42,5 +42,9 @@ namespace BusinessManagers.Managers
         {
             return await _userRepository.GetWithDraws(mobile);
         }
+        public async Task<List<RecurringInvestments>> GetRecurringInvestments(string mobile)
+        {
+            return await _userRepository.GetRecurringInvestments(mobile);
+        }
     }
 }

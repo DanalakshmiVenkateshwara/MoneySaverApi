@@ -17,7 +17,7 @@ namespace DataAccess.Repositories
         }
         public async Task<int> SaveUserKYC(UserKycDetails userKycDetails)
         {
-            if (!userKycDetails.IsAadharVerified)
+            if (userKycDetails.IsAadharVerified)
             {
                 return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Registration, new
                 {
@@ -30,7 +30,7 @@ namespace DataAccess.Repositories
                     phone = userKycDetails.Phone
                 });
             }
-            else if (!userKycDetails.IsSelfieVerified)
+            else if (userKycDetails.IsSelfieVerified)
             {
                 return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Selfie_Updataion, new
                 {
@@ -40,7 +40,7 @@ namespace DataAccess.Repositories
                     phone = userKycDetails.Phone
                 });
             }
-            else if (!userKycDetails.IsBankVerified)
+            else if (userKycDetails.IsBankVerified)
             {
                 return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Bank_Updataion, new
                 {
@@ -88,38 +88,96 @@ namespace DataAccess.Repositories
                     phone = investments.Phone,
                     TransactionId = investments.TransactionId
                 });
-                if (transaction > 0)
+                if (transaction > 0 && investments.PolicyNumber != string.Empty)
                 {
-                    return await this.AddOrUpdateDynamic(SqlQueries.Save_Investments, new
+
+                    //result = await this.AddOrUpdateDynamic(SqlQueries.Save_SubInvestments, new
+                    //{
+                    //    Amount = investments.Amount,
+                    //    RoI = investments.ROIMonthly,
+                    //    Tenure = investments.MonthlyTenure,
+                    //    StartDate = investments.StartDate,
+                    //    MaturityDate = investments.MaturityDate,
+                    //    MaturityValue = investments.MaturityValue,
+                    //    IsActive = investments.IsActive,
+                    //    Phone = investments.Phone,
+                    //    TransactionId = investments.TransactionId,
+                    //    PolicyNumber = investments.PolicyNumber
+                    //});
+                    int result = 0;
+                    result = await savesubinvestments(investments);
+                    if (result > 0)
                     {
-                        Amount = investments.Amount,
-                        RoIMonthly = investments.ROIMonthly,
-                        RoIYearly = investments.ROIYearly,
-                        MonthlyTenure = investments.MonthlyTenure,
-                        yearlyTenure = investments.YearlyTenure,
-                        StartDate = investments.StartDate,
-                        MaturityDate = investments.MaturityDate,
-                        MaturityValue = investments.MaturityValue,
-                        IsActive = investments.IsActive,
-                        Phone = investments.Phone,
-                        TransactionId = investments.TransactionId,
-                        Recurring = investments.recurring
-                    });
+                        return await this.AddOrUpdateDynamic(SqlQueries.Update_Investments, new
+                        {
+                            Amount = investments.Amount,
+                            MaturityValue = investments.MaturityValue,
+                            PolicyNumber = investments.PolicyNumber
+                        });
+                    }
+                    return result;
                 }
-                return 0;
+                else
+                {
+                    //int result = 0;
+                    ///*result = await savesubinvestments(investments);*/
+                    //if(result > 0)
+                    //{
+                        return await this.AddOrUpdateDynamic(SqlQueries.Save_Investments, new
+                        {
+                            Amount = investments.Amount,
+                            RoIDaily = investments.ROIDaily,
+                            RoIYearly = investments.ROIYearly,
+                            DailyTenure = investments.DailyTenure,
+                            yearlyTenure = investments.YearlyTenure,
+                            StartDate = DateTime.Now.ToString(),
+                            MaturityDate = investments.MaturityDate,
+                            MaturityValue = investments.MaturityValue,
+                            IsActive = investments.IsActive,
+                            Phone = investments.Phone,
+                            TransactionId = investments.TransactionId,
+                            Recurring = investments.recurring
+                        });
+                    
+                    //}
+                    //return result;
+
+                }
             }
             else
              return 0;
 
         }
+
+        private async Task<int> savesubinvestments(Investments investments)
+        {
+            return await this.AddOrUpdateDynamic(SqlQueries.Save_SubInvestments, new
+            {
+                Amount = investments.Amount,
+                RoI = investments.ROIDaily,
+                Tenure = investments.DailyTenure,
+                StartDate = investments.StartDate,
+                paymentDate = DateTime.Now.ToString(),
+                MaturityDate = investments.MaturityDate,
+                MaturityValue = investments.MaturityValue,
+                IsActive = investments.IsActive,
+                Phone = investments.Phone,
+                TransactionId = investments.TransactionId,
+                PolicyNumber = investments.PolicyNumber
+            });
+        }
         public async Task<List<Investments>> GetInvestments(string mobile)
         {
-            return await this.All<Investments>(SqlQueries.Get_Investments);
+            return await this.All<Investments>(SqlQueries.Get_Investments, new { mobile});
         }
         public async Task<List<Investments>> GetWithDraws(string mobile)
         {
             return await this.All<Investments>(SqlQueries.Get_WithDraws);
         }
-        
+        public async Task<List<RecurringInvestments>> GetRecurringInvestments(string mobile)
+        {
+            return await this.All<RecurringInvestments>(SqlQueries.Get_Recurring_Investments, new { mobile });
+        }
+
     }
 }

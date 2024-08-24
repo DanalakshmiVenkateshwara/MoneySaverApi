@@ -15,5 +15,6 @@ namespace DataAccess.Repositories.Interfaces
         Task<List<RateOfIntrest>> GetROI();
         Task<List<Investments>> GetInvestments(string mobile);
         Task<List<Investments>> GetWithDraws(string mobile);
+        Task<List<RecurringInvestments>> GetRecurringInvestments(string mobile);
     }
 }
