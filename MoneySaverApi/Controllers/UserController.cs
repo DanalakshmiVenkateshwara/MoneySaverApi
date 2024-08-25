@@ -149,7 +149,7 @@ namespace MoneySaverApi.Controllers
                 // Create the order
                 Order order = client.Order.Create(options);
                 Console.WriteLine(order.Attributes);
-                return Ok(order.Attributes);
+                return Ok(order.Attributes.ToString());
             }
             catch (Exception ex)
             {
