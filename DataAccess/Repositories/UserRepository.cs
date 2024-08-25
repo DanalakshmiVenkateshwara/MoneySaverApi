@@ -86,7 +86,9 @@ namespace DataAccess.Repositories
                     Type = "Deposit",
                     Status = true,
                     phone = investments.Phone,
-                    TransactionId = investments.TransactionId
+                    Order_Id = investments.Order_Id,
+                    Payment_Id = investments.Payment_Id,
+                    Signature = investments.Signature
                 });
                 if (transaction > 0 && investments.PolicyNumber != string.Empty)
                 {
@@ -135,7 +137,7 @@ namespace DataAccess.Repositories
                             MaturityValue = investments.MaturityValue,
                             IsActive = investments.IsActive,
                             Phone = investments.Phone,
-                            TransactionId = investments.TransactionId,
+                            Order_Id = investments.Order_Id,
                             Recurring = investments.recurring
                         });
                     
@@ -162,7 +164,9 @@ namespace DataAccess.Repositories
                 MaturityValue = investments.MaturityValue,
                 IsActive = investments.IsActive,
                 Phone = investments.Phone,
-                TransactionId = investments.TransactionId,
+                Order_Id = investments.Order_Id,
+                Payment_Id = investments.Payment_Id,
+                Signature = investments.Signature,
                 PolicyNumber = investments.PolicyNumber
             });
         }

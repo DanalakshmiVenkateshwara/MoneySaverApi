@@ -18,7 +18,9 @@ namespace BusinessObjects
         public int MaturityValue { get; set; }
         public bool IsActive { get; set; }
         public string? Phone { get; set; }
-        public string? TransactionId { get; set; }
+        public string? Order_Id { get; set; }
+        public string? Signature { get; set; }
+        public string? Payment_Id { get; set; }
         public string? PolicyNumber { get; set; }
         public bool? recurring { get; set; }
     }

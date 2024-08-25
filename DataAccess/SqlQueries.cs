@@ -22,10 +22,10 @@ namespace DataAccess
                     IsBankVerified = @IsBankVerified where phone =@phone  ";
         public const string Get_Kyc_Details = @"Select IsAadharVerified,IsSelfieVerified,IsBankVerified from CustomerKYCDetails where phone = @mobile ";
 
-        public const string Save_Investments = @"INSERT INTO Investments(Amount, ROIDaily, ROIYearly, DailyTenure,	YearlyTenure, StartDate, MaturityDate, MaturityValue, IsActive,	Phone, TransactionId,Recurring )
-                                                values (@Amount, @ROIDaily, @ROIYearly, @DailyTenure, @YearlyTenure, @StartDate, @MaturityDate, @MaturityValue, @IsActive,	@Phone, @TransactionId, @Recurring)";
-        public const string Save_Transaction = @"INSERT INTO transactions(Date, Amount, Type, Status, phone,TransactionId) 
-                                                 values(@Date, @Amount, @Type, @Status, @phone,@TransactionId)";
+        public const string Save_Investments = @"INSERT INTO Investments(Amount, ROIDaily, ROIYearly, DailyTenure,	YearlyTenure, StartDate, MaturityDate, MaturityValue, IsActive,	Phone, Order_Id,Recurring )
+                                                values (@Amount, @ROIDaily, @ROIYearly, @DailyTenure, @YearlyTenure, @StartDate, @MaturityDate, @MaturityValue, @IsActive,	@Phone, @Order_Id, @Recurring)";
+        public const string Save_Transaction = @"INSERT INTO transactions(Date, Amount, Type, Status, phone,Order_Id,Payment_Id,Signature) 
+                                                 values(@Date, @Amount, @Type, @Status, @phone,@Order_Id,@Payment_Id,@Signature)";
 
         public const string Get_ROI = "Select [Plan],ROI from rateofintrest";
 
