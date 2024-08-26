@@ -17,7 +17,7 @@ namespace DataAccess.Repositories
         }
         public async Task<int> SaveUserKYC(UserKycDetails userKycDetails)
         {
-            if (userKycDetails.IsAadharVerified)
+            if (!userKycDetails.IsAadharVerified)
             {
                 return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Registration, new
                 {
@@ -30,7 +30,7 @@ namespace DataAccess.Repositories
                     phone = userKycDetails.Phone
                 });
             }
-            else if (userKycDetails.IsSelfieVerified)
+            else if (!userKycDetails.IsSelfieVerified)
             {
                 return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Selfie_Updataion, new
                 {
@@ -40,7 +40,7 @@ namespace DataAccess.Repositories
                     phone = userKycDetails.Phone
                 });
             }
-            else if (userKycDetails.IsBankVerified)
+            else if (!userKycDetails.IsBankVerified)
             {
                 return await this.AddOrUpdateDynamic(SqlQueries.USer_Kyc_Bank_Updataion, new
                 {

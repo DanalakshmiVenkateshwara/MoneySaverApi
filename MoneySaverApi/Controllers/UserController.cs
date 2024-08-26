@@ -148,7 +148,6 @@ namespace MoneySaverApi.Controllers
 
                 // Create the order
                 Order order = client.Order.Create(options);
-                Console.WriteLine(order.Attributes);
                 return Ok(order.Attributes.ToString());
             }
             catch (Exception ex)
@@ -156,6 +155,40 @@ namespace MoneySaverApi.Controllers
                 // Handle exceptions
                 return StatusCode(500, new { Success = false, Message = ex.Message });
             }
+        }
+         [HttpPost]
+        [Route("VerifyPaymentSignature")]
+        public IActionResult VerifyPaymentSignature([FromBody] RazorpayPaymentVerificationRequest verificationRequest)
+        {
+            try
+            {
+                // Create a dictionary to hold the options for signature verification
+                Dictionary<string, string> options = new Dictionary<string, string>
+                {
+                    { "razorpay_order_id", verificationRequest.OrderId },
+                    { "razorpay_payment_id", verificationRequest.PaymentId },
+                    { "razorpay_signature", verificationRequest.Signature }
+                };
+
+                // Verify the payment signature
+                Utils.verifyPaymentSignature(options);
+
+                // If verification passes, return success response
+                return Ok(new { Success = true, Message = "Payment signature verified successfully." });
+            }
+            catch (Exception ex)
+            {
+                // Handle signature verification failure
+                return StatusCode(500, new { Success = false, Message = ex.Message });
+            }
+        }
+
+        // Create a model for Razorpay Payment Verification Request
+        public class RazorpayPaymentVerificationRequest
+        {
+            public string OrderId { get; set; }
+            public string PaymentId { get; set; }
+            public string Signature { get; set; }
         }
         // Create a model for Razorpay Order Request
         public class RazorpayOrderRequest
