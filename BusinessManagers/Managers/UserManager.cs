@@ -38,6 +38,10 @@ namespace BusinessManagers.Managers
         {
             return await _userRepository.GetInvestments(mobile);
         }
+        public async Task<List<UserKycDetails>> GetSelfie(string mobile)
+        {
+            return await _userRepository.GetSelfie(mobile);
+        }
         public async Task<List<Investments>> GetWithDraws(string mobile)
         {
             return await _userRepository.GetWithDraws(mobile);

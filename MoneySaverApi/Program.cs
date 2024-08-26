@@ -64,14 +64,14 @@ else
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseDefaultFiles();
-app.UseStaticFiles();
+// app.UseStaticFiles();
 
 // Serve static files from the "Files" directory
-//app.UseStaticFiles(new StaticFileOptions
-//{
-//    FileProvider = new PhysicalFileProvider(fileDirectory),
-//    RequestPath = "/files"
-//});
+app.UseStaticFiles(new StaticFileOptions
+{
+   FileProvider = new PhysicalFileProvider(fileDirectory),
+   RequestPath = "/files"
+});
 
 app.MapControllers();
 

@@ -14,6 +14,7 @@ namespace BusinessManagers.Interfaces
         Task<int> SaveInvestments(Investments investments);
         Task<List<RateOfIntrest>> GetROI();
         Task<List<Investments>> GetInvestments(string mobile);
+        Task<List<UserKycDetails>> GetSelfie(string mobile);
         Task<List<Investments>> GetWithDraws(string mobile);
         Task<List<RecurringInvestments>> GetRecurringInvestments(string mobile);
     }

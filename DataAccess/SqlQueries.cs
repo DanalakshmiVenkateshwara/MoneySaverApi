@@ -30,6 +30,7 @@ namespace DataAccess
         public const string Get_ROI = "Select [Plan],ROI from rateofintrest";
 
         public const string Get_Investments = "Select * from Investments where phone = @mobile";
+        public const string Get_Kyc_User_details = "Select * from CustomerKYCDetails where phone = @mobile";
         public const string Get_WithDraws = "Select * from withDraws";
         public const string Get_Recurring_Investments = "select amount,MaturityDate,MaturityValue, ROIMonthly, ROIYearly, PolicyNumber from Investments where Phone = @mobile and Recurring = 1 ";
 
