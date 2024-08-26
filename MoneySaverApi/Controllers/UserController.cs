@@ -11,7 +11,8 @@ using System.Threading.Tasks;
 using MoneySaver.Utilities.Config;
 using Microsoft.Extensions.Hosting.Internal;
 using System.Reflection;
-using Razorpay.Api;  // Make sure to import Razorpay API namespace
+using Razorpay.Api;
+using System.Diagnostics;  // Make sure to import Razorpay API namespace
 namespace MoneySaverApi.Controllers
 {
     [Route("api/[controller]")]
@@ -162,6 +163,8 @@ namespace MoneySaverApi.Controllers
         {
             try
             {
+                  // Initialize Razorpay Client
+                RazorpayClient client = new RazorpayClient("rzp_test_Oab7yc2dBS3Mbl", "KcbjpVlXQLHtBsjafyzlNQOU");
                 // Create a dictionary to hold the options for signature verification
                 Dictionary<string, string> options = new Dictionary<string, string>
                 {
@@ -169,7 +172,6 @@ namespace MoneySaverApi.Controllers
                     { "razorpay_payment_id", verificationRequest.PaymentId },
                     { "razorpay_signature", verificationRequest.Signature }
                 };
-
                 // Verify the payment signature
                 Utils.verifyPaymentSignature(options);
 
