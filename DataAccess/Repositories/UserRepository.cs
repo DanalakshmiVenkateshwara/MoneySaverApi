@@ -184,7 +184,7 @@ namespace DataAccess.Repositories
         }
         public async Task<List<Investments>> GetWithDraws(string mobile)
         {
-            return await this.All<Investments>(SqlQueries.Get_WithDraws);
+            return await this.All<Investments>(SqlQueries.Get_WithDraws, new { mobile});
         }
         public async Task<List<RecurringInvestments>> GetRecurringInvestments(string mobile)
         {

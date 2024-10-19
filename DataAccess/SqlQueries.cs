@@ -32,7 +32,7 @@ namespace DataAccess
         public const string Get_Investments = "Select * from Investments where phone = @mobile";
         public const string Get_Transactions = "Select [Date], Amount, Phone, Payment_Id, Order_Id from Transactions where phone = @mobile";
         public const string Get_Kyc_User_details = "Select * from CustomerKYCDetails where phone = @mobile";
-        public const string Get_WithDraws = "Select * from withDraws";
+        public const string Get_WithDraws = "Select * from Investments where phone = @mobile";
         public const string Get_Recurring_Investments = "select amount,MaturityDate,MaturityValue, ROIMonthly, ROIYearly, PolicyNumber from Investments where Phone = @mobile and Recurring = 1 ";
 
         public const string Save_SubInvestments = @"INSERT INTO SubInvestments(Amount, ROI,paymentDate Tenure, StartDate, MaturityDate, MaturityValue, IsActive,	Phone, TransactionId,PolicyNumber)
