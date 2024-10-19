@@ -12,7 +12,8 @@ using MoneySaver.Utilities.Config;
 using Microsoft.Extensions.Hosting.Internal;
 using System.Reflection;
 using Razorpay.Api;
-using System.Diagnostics;  // Make sure to import Razorpay API namespace
+using System.Diagnostics;
+using System.Runtime.Intrinsics.X86;  // Make sure to import Razorpay API namespace
 namespace MoneySaverApi.Controllers
 {
     [Route("api/[controller]")]
@@ -135,6 +136,27 @@ namespace MoneySaverApi.Controllers
         public async Task<List<Transactions>> GetTransactions(string mobile)
         {
             return await _userManager.GetTransactions(mobile);
+        }
+        [HttpGet]
+        [Route("GetDashboard")]
+        public async Task<Dashboard> GetDashboard(string mobile)
+        {
+            var investments = await _userManager.GetDashboard(mobile);
+              // Calculate the sum of MaturityValue and Amount
+        int totalMaturityValue = investments.Sum(investment => investment.MaturityValue);
+        int totalAmount = investments.Sum(investment => investment.Amount);
+         double growth = totalMaturityValue - totalAmount;
+        double percentage = (growth/totalAmount)*100;
+        double Roundedpercentage = Math.Round(percentage,2);
+            var result = new  Dashboard
+        {  
+            MaturityValue = totalMaturityValue, 
+            Amount = totalAmount, 
+            InterestAmount = growth,
+            percentage = Roundedpercentage,
+            
+        };
+        return result;
         }
 
         [HttpPost]

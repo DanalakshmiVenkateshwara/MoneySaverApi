@@ -178,6 +178,10 @@ namespace DataAccess.Repositories
         {
             return await this.All<Transactions>(SqlQueries.Get_Transactions, new { mobile});
         }
+        public async Task<List<Investments>> GetDashboard(string mobile)
+        {
+            return await this.All<Investments>(SqlQueries.Get_Investments, new { mobile});
+        }
         public async Task<List<UserKycDetails>> GetSelfie(string mobile)
         {
             return await this.All<UserKycDetails>(SqlQueries.Get_Kyc_User_details, new { mobile});
