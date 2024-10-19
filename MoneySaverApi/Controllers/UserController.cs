@@ -130,6 +130,12 @@ namespace MoneySaverApi.Controllers
         {
             return await _userManager.GetSelfie(mobile);
         }
+        [HttpGet]
+        [Route("GetTransactions")]
+        public async Task<List<Transactions>> GetTransactions(string mobile)
+        {
+            return await _userManager.GetTransactions(mobile);
+        }
 
         [HttpPost]
         [Route("CreateRazorpayOrder")]
