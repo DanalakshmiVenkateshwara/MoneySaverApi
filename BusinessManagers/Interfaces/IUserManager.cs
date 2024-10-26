@@ -9,7 +9,6 @@ namespace BusinessManagers.Interfaces
 {
     public interface IUserManager
     {
-        Task<int> SaveROI(string monthlyRoi, string yearlyRoi, string rPayKey, string rPayPassword);
         Task<int> SaveUserKYC(UserKycDetails userKycDetails);
         Task<KycStatusDetails> GetKycDetails(string mobile);
         Task<int> SaveInvestments(Investments investments);
