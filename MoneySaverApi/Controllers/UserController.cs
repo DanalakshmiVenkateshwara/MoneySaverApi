@@ -210,12 +210,14 @@ namespace MoneySaverApi.Controllers
 
         [HttpPost]
         [Route("VerifyPaymentSignature")]
-        public IActionResult VerifyPaymentSignature([FromBody] RazorpayPaymentVerificationRequest verificationRequest)
+        public async Task<IActionResult> VerifyPaymentSignature([FromBody] RazorpayPaymentVerificationRequest verificationRequest)
         {
             try
             {
-                  // Initialize Razorpay Client
-                RazorpayClient client = new RazorpayClient("rzp_test_Oab7yc2dBS3Mbl", "KcbjpVlXQLHtBsjafyzlNQOU");
+                // Initialize Razorpay Client
+                var razorPayDetails = await _userManager.Get_RazorPayKeys();
+
+                RazorpayClient client = new RazorpayClient(razorPayDetails.RPayKey, razorPayDetails.RPayPassword);
                 // Create a dictionary to hold the options for signature verification
                 Dictionary<string, string> options = new Dictionary<string, string>
                 {
