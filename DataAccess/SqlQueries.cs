@@ -28,8 +28,8 @@ namespace DataAccess
         public const string Save_Transaction = @"INSERT INTO transactions(Date, Amount, Type, Status, phone,Order_Id,Payment_Id,Signature) 
                                                  values(@Date, @Amount, @Type, @Status, @phone,@Order_Id,@Payment_Id,@Signature)";
 
-        public const string Get_ROI = "Select [Plan],ROI from rateofintrest";
-        public const string Get_RazorPayKeys = "Select top 1  RPayKey, RPayPassword from rateofintrest";
+        public const string Get_ROI = "Select [Plan],ROI,RPayKey, RPayPassword from rateofintrest";
+        public const string Get_RazorPayKeys = "Select RPayKey, RPayPassword from rateofintrest";
 
         public const string Get_Investments = "Select * from Investments where phone = @mobile";
         public const string Get_Transactions = "Select [Date], Amount, Phone, Payment_Id, Order_Id from Transactions where phone = @mobile";
