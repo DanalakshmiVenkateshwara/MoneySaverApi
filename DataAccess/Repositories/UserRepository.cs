@@ -75,6 +75,10 @@ namespace DataAccess.Repositories
         {
            return await this.All<RateOfIntrest>(SqlQueries.Get_ROI);
         }
+        public async Task<RateOfIntrest> Get_RazorPayKeys()
+        {
+            return await Find<RateOfIntrest>(SqlQueries.Get_RazorPayKeys);
+        }
         public async Task<int> SaveInvestments(Investments investments)
         {
             if (investments != null)

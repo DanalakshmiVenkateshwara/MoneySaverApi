@@ -1,5 +1,6 @@
 ﻿using BusinessManagers.Interfaces;
 using BusinessObjects;
+using DataAccess;
 using DataAccess.Repositories;
 using DataAccess.Repositories.Interfaces;
 using System;
@@ -29,6 +30,10 @@ namespace BusinessManagers.Managers
         public async Task<List<RateOfIntrest>> GetROI()
         {
             return await _userRepository.GetROI();
+        }
+        public async Task<RateOfIntrest> Get_RazorPayKeys()
+        {
+            return await _userRepository.Get_RazorPayKeys();
         }
         public async Task<int> SaveInvestments(Investments investments)
         {

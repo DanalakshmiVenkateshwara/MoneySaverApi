@@ -3,6 +3,7 @@ using BusinessObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -28,6 +29,7 @@ namespace DataAccess
                                                  values(@Date, @Amount, @Type, @Status, @phone,@Order_Id,@Payment_Id,@Signature)";
 
         public const string Get_ROI = "Select [Plan],ROI from rateofintrest";
+        public const string Get_RazorPayKeys = "Select top 1  RPayKey, RPayPassword from rateofintrest";
 
         public const string Get_Investments = "Select * from Investments where phone = @mobile";
         public const string Get_Transactions = "Select [Date], Amount, Phone, Payment_Id, Order_Id from Transactions where phone = @mobile";

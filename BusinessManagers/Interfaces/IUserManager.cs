@@ -9,10 +9,12 @@ namespace BusinessManagers.Interfaces
 {
     public interface IUserManager
     {
+        Task<int> SaveROI(string monthlyRoi, string yearlyRoi, string rPayKey, string rPayPassword);
         Task<int> SaveUserKYC(UserKycDetails userKycDetails);
         Task<KycStatusDetails> GetKycDetails(string mobile);
         Task<int> SaveInvestments(Investments investments);
         Task<List<RateOfIntrest>> GetROI();
+        Task<RateOfIntrest> Get_RazorPayKeys();
         Task<List<Investments>> GetInvestments(string mobile);
         Task<List<Transactions>> GetTransactions(string mobile);
         Task<List<Investments>> GetDashboard(string mobile);

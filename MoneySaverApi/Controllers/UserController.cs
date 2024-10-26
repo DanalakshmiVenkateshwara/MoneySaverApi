@@ -13,7 +13,8 @@ using Microsoft.Extensions.Hosting.Internal;
 using System.Reflection;
 using Razorpay.Api;
 using System.Diagnostics;
-using System.Runtime.Intrinsics.X86;  // Make sure to import Razorpay API namespace
+using System.Runtime.Intrinsics.X86;
+using System.Runtime.InteropServices;  // Make sure to import Razorpay API namespace
 namespace MoneySaverApi.Controllers
 {
     [Route("api/[controller]")]
@@ -32,6 +33,16 @@ namespace MoneySaverApi.Controllers
             _staticFileSettings = staticFileSettings;
         }
         //[EnableCors]
+
+        ////Admin operations in future we need to move to admin controller
+
+        //[HttpPost]
+        //[Route("SaveROI")]
+        //public async Task<IActionResult> SaveROI(string monthlyRoi, string yearlyRoi, string rPayKey, string rPayPassword)
+        //{
+        //    return await _userManager.SaveROI(monthlyRoi, yearlyRoi, rPayKey, rPayPassword);
+        //}
+
         [HttpPost]
         [Route("SaveUserKYC")]
         public async Task<IActionResult> SaveUserKYC([FromBody] UserKycDetails userKycDetails)
@@ -143,30 +154,33 @@ namespace MoneySaverApi.Controllers
         {
             var investments = await _userManager.GetDashboard(mobile);
               // Calculate the sum of MaturityValue and Amount
-        int totalMaturityValue = investments.Sum(investment => investment.MaturityValue);
-        int totalAmount = investments.Sum(investment => investment.Amount);
-         double growth = totalMaturityValue - totalAmount;
-        double percentage = (growth/totalAmount)*100;
-        double Roundedpercentage = Math.Round(percentage,2);
-            var result = new  Dashboard
-        {  
-            MaturityValue = totalMaturityValue, 
-            Amount = totalAmount, 
-            InterestAmount = growth,
-            percentage = Roundedpercentage,
-            
-        };
-        return result;
+                  int totalMaturityValue = investments.Sum(investment => investment.MaturityValue);
+                  int totalAmount = investments.Sum(investment => investment.Amount);
+                   double growth = totalMaturityValue - totalAmount;
+                  double percentage = (growth/totalAmount)*100;
+                  double Roundedpercentage = Math.Round(percentage,2);
+                      var result = new  Dashboard
+                      {  
+                          MaturityValue = totalMaturityValue, 
+                          Amount = totalAmount, 
+                          InterestAmount = growth,
+                          percentage = Roundedpercentage,
+                          
+                      };
+                return result;
         }
 
         [HttpPost]
         [Route("CreateRazorpayOrder")]
-        public IActionResult CreateRazorpayOrder([FromBody] RazorpayOrderRequest orderRequest)
+        public async Task<IActionResult> CreateRazorpayOrder([FromBody] RazorpayOrderRequest orderRequest)
         {
             try
             {
                 // Initialize Razorpay Client
-                RazorpayClient client = new RazorpayClient("rzp_test_Oab7yc2dBS3Mbl", "KcbjpVlXQLHtBsjafyzlNQOU");
+
+                var razorPayDetails = await _userManager.Get_RazorPayKeys();
+
+                RazorpayClient client = new RazorpayClient(razorPayDetails.RPayKey, razorPayDetails.RPayPassword);
 
                 // Create a dictionary for the order request
                 Dictionary<string, object> options = new Dictionary<string, object>
@@ -183,7 +197,8 @@ namespace MoneySaverApi.Controllers
                 options.Add("notes", notes);
 
                 // Create the order
-                Order order = client.Order.Create(options);
+                Order order = await Task.Run(() => client.Order.Create(options));
+                //Order order = client.Order.Create(options);
                 return Ok(order.Attributes.ToString());
             }
             catch (Exception ex)
@@ -192,7 +207,8 @@ namespace MoneySaverApi.Controllers
                 return StatusCode(500, new { Success = false, Message = ex.Message });
             }
         }
-         [HttpPost]
+
+        [HttpPost]
         [Route("VerifyPaymentSignature")]
         public IActionResult VerifyPaymentSignature([FromBody] RazorpayPaymentVerificationRequest verificationRequest)
         {
