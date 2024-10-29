@@ -14,6 +14,8 @@ namespace BusinessManagers.Interfaces
         Task<int> SaveInvestments(Investments investments);
         Task<List<RateOfIntrest>> GetROI();
         Task<RateOfIntrest> Get_RazorPayKeys();
+        Task<int> SaveUserDetails(UserDetails userDetails);
+        Task<UserDetails> GetUserDetails(string phone, string password);
         Task<List<Investments>> GetInvestments(string mobile);
         Task<List<Transactions>> GetTransactions(string mobile);
         Task<List<Investments>> GetDashboard(string mobile);

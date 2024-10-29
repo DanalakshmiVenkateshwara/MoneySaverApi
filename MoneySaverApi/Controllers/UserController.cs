@@ -98,6 +98,26 @@ namespace MoneySaverApi.Controllers
         {
             return await _userManager.GetKycDetails(mobile);
         }
+        [HttpPost]
+        [Route("SaveUserDetails")]
+        public async Task<IActionResult> SaveUserDetails([FromBody] UserDetails userDetails)
+        {
+            var result = await _userManager.SaveUserDetails(userDetails);
+            if (result > 0)
+                return Ok(new CreationResult { Success = true, Message = "UserDetails saved successFully"});
+            //return Ok(new KycResults { Success = true,Id = result, Message = "", ImagePath = "" });
+            else if(result < 0)
+                return Ok(new CreationResult { Success = true, Message = "Mobile number already existed" });
+            else
+            return Ok(new CreationResult { Success = false, Message = "Invalid UserDetails"});
+        }
+        [HttpGet]
+        [Route("GetUserDetails")]
+        public async Task<UserDetails> GetUserDetails(string phone,string password)
+        {
+            return await _userManager.GetUserDetails(phone, password);
+        }
+
         //[EnableCors]
         [HttpGet]
         [Route("GetROI")]
@@ -113,9 +133,9 @@ namespace MoneySaverApi.Controllers
         {
             int result = await _userManager.SaveInvestments(investments);
             if (result > 0)
-                return Ok(new CreationResults { Id = result, Success = true, Message = "" });
+                return Ok(new CreationResult { Id = result, Success = true, Message = "" });
             else
-                return Ok(new CreationResults { Id = result, Success = false, Message = "" });
+                return Ok(new CreationResult { Id = result, Success = false, Message = "" });
         }
         [HttpGet]
         [Route("GetWithDraws")]

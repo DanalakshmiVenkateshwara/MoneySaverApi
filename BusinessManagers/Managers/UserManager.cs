@@ -35,6 +35,15 @@ namespace BusinessManagers.Managers
         {
             return await _userRepository.Get_RazorPayKeys();
         }
+        public async Task<int> SaveUserDetails(UserDetails userDetails)
+        {
+            return await _userRepository.SaveUserDetails(userDetails);
+        }
+        public async Task<UserDetails> GetUserDetails(string phone, string password)
+        {
+            return await _userRepository.GetUserDetails(phone, password);
+        }
+
         public async Task<int> SaveInvestments(Investments investments)
         {
             return await _userRepository.SaveInvestments(investments);

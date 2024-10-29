@@ -75,6 +75,33 @@ namespace DataAccess.Repositories
         {
            return await this.All<RateOfIntrest>(SqlQueries.Get_ROI);
         }
+        public async Task<int> SaveUserDetails(UserDetails userDetails)
+        {
+            if(userDetails.Phone != null)
+            {
+                var result = await this.FindBy<int>(SqlQueries.Is_UserExist, new { phone = userDetails.Phone });
+
+                if (result > 0)
+                {
+                    return -1;
+                }
+                else
+                {
+                    return await this.AddOrUpdateDynamic(SqlQueries.Save_UserDetails, new
+                    {
+                        Name = userDetails.Name,
+                        phone = userDetails.Phone,
+                        Password = userDetails.Password
+                    });
+                }
+            }
+            else { return 0; }
+                
+        }
+        public async Task<UserDetails> GetUserDetails(string phone, string password)
+        {
+            return await this.FindBy<UserDetails>(SqlQueries.Get_UserDetails, new { Phone = @phone, password= @password });
+        }
         public async Task<RateOfIntrest> Get_RazorPayKeys()
         {
             return await Find<RateOfIntrest>(SqlQueries.Get_RazorPayKeys);

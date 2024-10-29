@@ -17,7 +17,8 @@ namespace DataAccess.Repositories.Interfaces
         Task<List<Transactions>> GetTransactions(string mobile);
         Task<List<Investments>> GetDashboard(string mobile);
         Task<RateOfIntrest> Get_RazorPayKeys();
-        
+        Task<int> SaveUserDetails(UserDetails userDetails);
+        Task<UserDetails> GetUserDetails(string phone, string password);
         Task<List<UserKycDetails>> GetSelfie(string mobile);
         Task<List<Investments>> GetWithDraws(string mobile);
         Task<List<RecurringInvestments>> GetRecurringInvestments(string mobile);

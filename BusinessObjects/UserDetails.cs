@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BusinessObjects
 {
-    public class CreationResults
+    public class UserDetails
     {
-        public int Id { get; set; }
-        public bool Success { get; set; }
-        public string? Message { get; set; }
+        public string Name { get; set; }
+        public string Phone { get; set; }
+        public string Password { get; set; }
     }
 }
