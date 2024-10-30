@@ -25,19 +25,53 @@ namespace MoneySaverApi.Controllers
 
         // User CRUD operations
 
-        [HttpPost("createUser")]
-        public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserModel model)
+ [HttpPost("createUser")]
+public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserModel model)
+{
+    try
+    {
+        UserRecord user;
+
+        // Check if user exists by phone number
+        try
         {
-            try
+            user = await _auth.GetUserByPhoneNumberAsync(model.PhoneNumber);
+        }
+        catch (FirebaseAuthException ex) when (ex.AuthErrorCode == AuthErrorCode.UserNotFound)
+        {
+            // User does not exist, so create a new one
+            user = await _auth.CreateUserAsync(new UserRecordArgs
             {
-                // Get the user by phone number
-                var user = await _auth.GetUserByPhoneNumberAsync(model.PhoneNumber);
-                if (user == null)
+                PhoneNumber = model.PhoneNumber,
+                Email = model.Email,
+                DisplayName = model.DisplayName,
+                PhotoUrl = model.PhotoUrl
+            });
+        }
+
+        // If user already exists by phone number, update the email if necessary
+        if (user != null)
+        {
+            // Check if email needs to be updated
+            if (!string.IsNullOrEmpty(model.Email) && user.Email != model.Email)
+            {
+                // First, we need to ensure the email is not already used by another user
+                try
                 {
-                    return BadRequest("User with provided phone number not found.");
+                    var existingUser = await _auth.GetUserByEmailAsync(model.Email);
+                    if (existingUser != null)
+                    {
+                         var rcustomToken = await _auth.CreateCustomTokenAsync(existingUser.Uid);
+        return Ok(new { message = "User exists, token generated successfully.", authToken = rcustomToken });
+                      
+                    }
+                }
+                catch (FirebaseAuthException ex) when (ex.AuthErrorCode == AuthErrorCode.UserNotFound)
+                {
+                    // Email does not exist, we can proceed to update it
                 }
 
-                // Update user data
+                // Update user data with the new email
                 var updateArgs = new UserRecordArgs
                 {
                     Uid = user.Uid,
@@ -46,23 +80,43 @@ namespace MoneySaverApi.Controllers
                     PhotoUrl = model.PhotoUrl
                 };
 
-                // Update custom claims if needed
-                await _auth.SetCustomUserClaimsAsync(user.Uid, new Dictionary<string, object>
+                // Update user data
+                await _auth.UpdateUserAsync(updateArgs);
+            }
+        }
+
+        // Set custom claims (if any)
+        await _auth.SetCustomUserClaimsAsync(user.Uid, new Dictionary<string, object>
         {
             { "tenantId", model.TenantId }
         });
 
-                // Link email to existing phone number user
-                await _auth.UpdateUserAsync(updateArgs);
+        // Generate a Firebase custom auth token for the user
+        var customToken = await _auth.CreateCustomTokenAsync(user.Uid);
 
-                return Ok("Email linked successfully.");
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error linking email to existing phone number user");
-                return BadRequest(ex.Message);
-            }
-        }
+        return Ok(new { message = "User created or retrieved successfully.", authToken = customToken });
+    }
+    catch (FirebaseAuthException ex) when (ex.AuthErrorCode == AuthErrorCode.PhoneNumberAlreadyExists)
+    {
+        return BadRequest("The phone number is already associated with an existing user.");
+    }
+    catch (FirebaseAuthException ex) when (ex.AuthErrorCode == AuthErrorCode.EmailAlreadyExists)
+    {
+        // If the email already exists, still generate a token for the existing user
+        var existingUser = await _auth.GetUserByEmailAsync(model.Email);
+        var customToken = await _auth.CreateCustomTokenAsync(existingUser.Uid);
+        return Ok(new { message = "User exists, token generated successfully.", authToken = customToken });
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error creating or retrieving user");
+        return BadRequest(ex.Message);
+    }
+}
+
+
+
+
 
 
         [HttpGet("getUser/{uid}")]
