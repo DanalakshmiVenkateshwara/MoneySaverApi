@@ -113,9 +113,25 @@ namespace MoneySaverApi.Controllers
         }
         [HttpGet]
         [Route("GetUserDetails")]
-        public async Task<UserDetails> GetUserDetails(string phone,string password)
+        public async Task<IActionResult> GetUserDetails(string phone,string password)
         {
-            return await _userManager.GetUserDetails(phone, password);
+            var result =  await _userManager.GetUserDetails(phone, password);
+            if(result== null)
+            {
+                return Ok(new
+                {
+                    UserDetails = result,
+                    CreationResult = new CreationResult { Success = false }
+                });
+            }
+            else
+            {
+                return Ok(new
+                {
+                    UserDetails = result,
+                    CreationResult = new CreationResult { Success = true }
+                });
+            }
         }
 
         //[EnableCors]
