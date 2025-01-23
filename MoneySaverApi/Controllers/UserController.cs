@@ -96,7 +96,18 @@ namespace MoneySaverApi.Controllers
         [Route("GetKYCDetails")]
         public async Task<KycStatusDetails> GetKycDetails(string mobile)
         {
-            return await _userManager.GetKycDetails(mobile);
+            try
+            {
+                return await _userManager.GetKycDetails(mobile);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (if logging is set up in your application)
+                Console.WriteLine($"Error retrieving KYC details for mobile {mobile}: {ex.Message}");
+
+                // Optionally, return a default or null value to indicate failure
+                return await Task.FromException<KycStatusDetails>(ex);
+            }
         }
         [HttpPost]
         [Route("SaveUserDetails")]
@@ -104,19 +115,19 @@ namespace MoneySaverApi.Controllers
         {
             var result = await _userManager.SaveUserDetails(userDetails);
             if (result > 0)
-                return Ok(new CreationResult { Success = true, Message = "UserDetails saved successFully"});
+                return Ok(new CreationResult { Success = true, Message = "UserDetails saved successFully" });
             //return Ok(new KycResults { Success = true,Id = result, Message = "", ImagePath = "" });
-            else if(result < 0)
+            else if (result < 0)
                 return Ok(new CreationResult { Success = true, Message = "Mobile number already existed" });
             else
-            return Ok(new CreationResult { Success = false, Message = "Invalid UserDetails"});
+                return Ok(new CreationResult { Success = false, Message = "Invalid UserDetails" });
         }
         [HttpGet]
         [Route("GetUserDetails")]
-        public async Task<IActionResult> GetUserDetails(string phone,string password)
+        public async Task<IActionResult> GetUserDetails(string phone, string password)
         {
-            var result =  await _userManager.GetUserDetails(phone, password);
-            if(result== null)
+            var result = await _userManager.GetUserDetails(phone, password);
+            if (result == null)
             {
                 return Ok(new
                 {
@@ -188,23 +199,61 @@ namespace MoneySaverApi.Controllers
         [Route("GetDashboard")]
         public async Task<Dashboard> GetDashboard(string mobile)
         {
-            var investments = await _userManager.GetDashboard(mobile);
-              // Calculate the sum of MaturityValue and Amount
-                  int totalMaturityValue = investments.Sum(investment => investment.MaturityValue);
-                  int totalAmount = investments.Sum(investment => investment.Amount);
-                   double growth = totalMaturityValue - totalAmount;
-                  double percentage = (growth/totalAmount)*100;
-                  double Roundedpercentage = Math.Round(percentage,2);
-                      var result = new  Dashboard
-                      {  
-                          MaturityValue = totalMaturityValue, 
-                          Amount = totalAmount, 
-                          InterestAmount = growth,
-                          percentage = Roundedpercentage,
-                          
-                      };
+            try
+            {
+                var investments = await _userManager.GetDashboard(mobile);
+
+                // Initialize result variable properly
+                Dashboard result;
+
+                // Check if investments is null or empty to avoid NullReferenceException
+                if (investments == null || !investments.Any())
+                {
+                    result = new Dashboard
+                    {
+                        MaturityValue = 0,
+                        Amount = 0,
+                        InterestAmount = 0,
+                        percentage = 0
+                    };
+                    return result;
+                }
+
+                // Calculate the sum of MaturityValue and Amount
+                int totalMaturityValue = investments.Sum(investment => investment.MaturityValue);
+                int totalAmount = investments.Sum(investment => investment.Amount);
+
+                double growth = totalMaturityValue - totalAmount;
+                double percentage = totalAmount != 0 ? (growth / totalAmount) * 100 : 0;  // Avoid division by zero
+                double roundedPercentage = Math.Round(percentage, 2);
+
+                result = new Dashboard
+                {
+                    MaturityValue = totalMaturityValue,
+                    Amount = totalAmount,
+                    InterestAmount = growth,
+                    percentage = roundedPercentage
+                };
+
                 return result;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (replace with actual logging mechanism)
+                Console.WriteLine($"Error retrieving dashboard for mobile {mobile}: {ex.Message}");
+
+                // Return a default instance to ensure the method signature is respected
+                return new Dashboard
+                {
+                    MaturityValue = 0,
+                    Amount = 0,
+                    InterestAmount = 0,
+                    percentage = 0
+                };
+            }
         }
+
+
 
         [HttpPost]
         [Route("CreateRazorpayOrder")]
